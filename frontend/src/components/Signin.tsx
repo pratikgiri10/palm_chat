@@ -1,3 +1,4 @@
+import axios from "axios"
 import { useState } from "react"
 import { useNavigate } from "react-router"
 
@@ -21,7 +22,7 @@ const Signin = () => {
             [e.target.name]: ''
         });
     }
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const newErrors = {
             email: '',
             password: ''
@@ -32,6 +33,12 @@ const Signin = () => {
             newErrors.password = 'password is required';
 
         setErrors(newErrors)
+
+        const user = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/signin`, { ...formData })
+        if (user) {
+            localStorage.setItem('accessToken', user.data.accessToken)
+            localStorage.setItem('refreshToken', user.data.refreshToken)
+        }
     }
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">

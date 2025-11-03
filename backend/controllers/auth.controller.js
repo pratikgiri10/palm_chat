@@ -27,7 +27,9 @@ const generateToken = async (userId) => {
 }
 
 export const register = async (req, res) => {
+
     const { name, email, password } = req.body
+
 
     if ([name, email, password].some((field) => field?.trim() === "")) {
         throw new ApiError(400, 'please fill all the fields')
@@ -35,7 +37,7 @@ export const register = async (req, res) => {
     }
 
     try {
-        const existingUser = await User.findOne({ emai })
+        const existingUser = await User.findOne({ email })
 
         if (existingUser)
             throw new ApiError(409, 'user already exists')
@@ -56,6 +58,7 @@ export const register = async (req, res) => {
 }
 
 export const signin = async (req, res) => {
+
     const { email, password } = req.body
     if (!email || !password)
         throw new ApiError(400, "please fill all the fields")
@@ -70,7 +73,7 @@ export const signin = async (req, res) => {
 
         if (!isMatch)
             throw new ApiError(401, "invalid user credentials")
-        const { accessToken, refreshToken } = generateToken(user._id)
+        const { accessToken, refreshToken } = await generateToken(user._id)
 
         const options = {
             httpOnly: true,

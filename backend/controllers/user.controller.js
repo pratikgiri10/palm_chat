@@ -4,8 +4,8 @@ import { ApiError } from "../utils/ApiError.js"
 export const getAllUsers = async (req, res) => {
     const users = await User.find({}).select({ password: 0 })
 
-    if (!users)
-        throw new ApiError(401, 'bad request')
+    if (!users || (Array.isArray(users) && users.length < 1))
+        throw new ApiError(404, 'users not found')
 
     res.status(200).json({
         users,

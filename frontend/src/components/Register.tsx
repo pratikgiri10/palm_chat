@@ -1,4 +1,5 @@
-import { useState } from "react"
+import axios from "axios"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 
 const Register = () => {
@@ -50,7 +51,15 @@ const Register = () => {
             newErrors.confirmPassword = 'passwords do not match'
 
         setErrors(newErrors)
-        // if(formData.password != formData.confirmPassword)
+
+
+        const registerUser = async () => {
+            const user = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/register`, { ...formData })
+            console.log(user);
+
+        }
+        registerUser()
+
     }
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
