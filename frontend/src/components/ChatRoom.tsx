@@ -22,7 +22,9 @@ const ChatRoom = () => {
         socket.connect()
     })
     return (
-        <div className="flex-1 flex flex-col justify-end px-4 py-8 gap-6">
+        <div
+            className="flex-1 flex flex-col justify-end px-4 py-8 gap-6"
+        >
 
             <div>
                 <p className="text-white">hi</p>
