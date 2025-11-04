@@ -24,7 +24,6 @@ const Chat = () => {
     }, [])
     return (
         <div className='w-full h-screen flex bg-zinc-950'
-            onClick={() => setShowCreateRoom(false)}
         >
             <ChatList
                 setShowCreateRoom={setShowCreateRoom}
@@ -33,6 +32,7 @@ const Chat = () => {
             <ChatRoom />
             {showCreateRoom && (
                 <CreateRoom
+                    setShowCreateRoom={setShowCreateRoom}
                     users={user}
                 />
             )}

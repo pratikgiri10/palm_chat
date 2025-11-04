@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import axios from "axios";
 import type { User } from "./Chat";
+import { CircleX } from 'lucide-react';
 
 
 
 const CreateRoom = ({
+    setShowCreateRoom,
     users
 }: {
+    setShowCreateRoom: Dispatch<SetStateAction<boolean>>,
     users: User[]
 }) => {
     const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
@@ -34,7 +37,7 @@ const CreateRoom = ({
         setMessage("");
 
         try {
-            const res = await axios.post("/api/groups", {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/room`, {
                 name: groupName,
                 members: selectedUsers,
             });
@@ -53,6 +56,7 @@ const CreateRoom = ({
     return (
         <div
             className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+            onClick={() => setShowCreateRoom(false)}
         >
             <div
                 className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto "
@@ -61,8 +65,14 @@ const CreateRoom = ({
                     e.stopPropagation()
                 }}
             >
-                <div className="p-6 border-b border-gray-100">
-                    <h2 className="text-xl font-bold text-gray-800">Create a New Group</h2>
+                <div className="p-4 border-b border-gray-100 space-y-2">
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-xl font-bold text-gray-800">Create a New Group</h2>
+                        <CircleX
+                            className="hover:text-gray-500"
+                            onClick={() => setShowCreateRoom(false)}
+                        />
+                    </div>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         {/* Group Name Input */}
@@ -82,7 +92,7 @@ const CreateRoom = ({
                             <label className="block text-sm font-medium mb-1">
                                 Select Members
                             </label>
-                            <div className="max-h-48 overflow-y-auto border rounded-md p-2 space-y-2">
+                            <div className="max-h-48 overflow-y-auto rounded-md p-2 space-y-2 hover:bg-gray-200">
                                 {users.map((user) => (
                                     <label
                                         key={user._id}
@@ -100,6 +110,9 @@ const CreateRoom = ({
                                         />
                                     </label>
                                 ))}
+                                {users.length < 1 && (
+                                    <span className="text-md ">No users found</span>
+                                )}
                             </div>
                         </div>
 
@@ -107,7 +120,7 @@ const CreateRoom = ({
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+                            className="w-full bg-[#044c69] text-white py-2 rounded-md hover:bg-[#055c6a] transition"
                         >
                             {loading ? "Creating..." : "Create Group"}
                         </button>
