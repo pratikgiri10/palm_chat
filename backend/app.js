@@ -14,7 +14,7 @@ app.use('/api/v1/auth', authRoutes)
 app.use('/api/v1/users', userRoutes)
 app.use('/api/v1/chat', chatRoutes)
 
-app.use(errorHandler())
+app.use(errorHandler)
 
 app.get('/', (req, res) => {
     res.send('Hello World!')

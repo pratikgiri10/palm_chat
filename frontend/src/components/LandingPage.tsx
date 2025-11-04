@@ -1,9 +1,14 @@
 import { useNavigate } from "react-router";
+import { useAuth } from "../hooks/useAuth";
 
 const LandingPage = () => {
     const navigate = useNavigate()
+    const isAuthenticated = useAuth()
     const handleEnterChat = () => {
-        navigate('/chat')
+        if (isAuthenticated)
+            navigate('/chat')
+        else
+            navigate('/signin')
     };
 
     const handleSignIn = () => {
@@ -15,13 +20,13 @@ const LandingPage = () => {
 
             <nav className="flex items-center justify-between px-6 py-4 border-b border-gray-50">
                 <div className="flex items-center space-x-2">
-                    <span className="text-white text-2xl font-bold">ChatApp</span>
+                    <span className="text-white text-2xl font-bold">PalmChat</span>
                 </div>
                 <button
                     onClick={handleSignIn}
                     className="px-6 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-100 transition duration-200 shadow-lg"
                 >
-                    Sign In
+                    {isAuthenticated ? ' Log Out' : 'Sign In'}
                 </button>
             </nav>
 
