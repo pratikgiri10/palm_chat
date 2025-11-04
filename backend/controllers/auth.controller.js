@@ -22,7 +22,7 @@ const generateToken = async (userId) => {
 
         return { accessToken, refreshToken }
     } catch (error) {
-        throw new ApiError(error)
+        next(error)
     }
 }
 
@@ -53,7 +53,7 @@ export const register = async (req, res) => {
         })
 
     } catch (error) {
-        throw new ApiError(500, error)
+        next(error)
     }
 }
 
@@ -88,6 +88,6 @@ export const signin = async (req, res) => {
             message: 'user logged in successfully'
         })
     } catch (error) {
-        throw new ApiError(500, error)
+        next(error)
     }
 }
