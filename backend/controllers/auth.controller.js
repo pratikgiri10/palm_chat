@@ -91,3 +91,13 @@ export const signin = async (req, res) => {
         next(error)
     }
 }
+export const logOut = async (req, res) => {
+    const options = {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax'
+    }
+    return res.status(200).clearCookie("accessToken", options).clearCookie("refreshToken", options).json({
+        message: 'User logged out successfully'
+    })
+}

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
+import axios from "axios";
 
 const LandingPage = () => {
     const navigate = useNavigate()
@@ -14,6 +15,15 @@ const LandingPage = () => {
     const handleSignIn = () => {
         navigate('/signin')
     };
+    const handleLogOut = async () => {
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/logout`, { withCredentials: true })
+        console.log(res);
+
+        if (res) {
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+        }
+    }
 
     return (
         <div className="min-h-screen bg-zinc-950">
@@ -22,12 +32,22 @@ const LandingPage = () => {
                 <div className="flex items-center space-x-2">
                     <span className="text-white text-2xl font-bold">PalmChat</span>
                 </div>
-                <button
-                    onClick={handleSignIn}
-                    className="px-6 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-100 transition duration-200 shadow-lg"
-                >
-                    {isAuthenticated ? ' Log Out' : 'Sign In'}
-                </button>
+                {isAuthenticated ? (
+                    <button
+                        onClick={handleLogOut}
+                        className="px-6 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-100 transition duration-200 shadow-lg"
+                    >
+                        Log Out
+                    </button>
+                ) : (
+                    <button
+                        onClick={handleSignIn}
+                        className="px-6 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-100 transition duration-200 shadow-lg"
+                    >
+                        Sign In
+                    </button>
+                )}
+
             </nav>
 
 
