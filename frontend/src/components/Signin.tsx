@@ -1,9 +1,11 @@
 import axios from "axios"
 import { useState } from "react"
 import { useNavigate } from "react-router"
+import { useUser } from "../hooks/useUser"
 
 const Signin = () => {
     const navigate = useNavigate()
+    const { setUser } = useUser()
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -38,7 +40,9 @@ const Signin = () => {
         if (user) {
             localStorage.setItem('accessToken', user.data.accessToken)
             localStorage.setItem('refreshToken', user.data.refreshToken)
+            setUser(user.data)
         }
+
     }
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">

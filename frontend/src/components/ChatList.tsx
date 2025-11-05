@@ -1,5 +1,6 @@
 import { type Dispatch, type SetStateAction } from "react"
-import type { User } from "./Chat"
+import type { User } from "../types/user"
+
 
 
 const ChatList = ({
@@ -22,7 +23,7 @@ const ChatList = ({
                     }}
                 >Create Group</button>
             </div>
-            <div>
+            <div className="space-y-2">
                 {users.length > 0 && users.map(({ _id, name }) => (
                     <div key={_id}
                         className="bg-[#044c69] text-white rounded-xl px-4 py-2 hover:border hover:bg-transparent"

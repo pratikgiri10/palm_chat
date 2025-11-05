@@ -1,9 +1,8 @@
-import React, { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import React, { useState, type Dispatch, type SetStateAction } from "react";
 import axios from "axios";
-import type { User } from "./Chat";
 import { CircleX } from 'lucide-react';
-
-
+import type { User } from "../types/user";
+import { useUser } from "../hooks/useUser";
 
 const CreateRoom = ({
     setShowCreateRoom,
@@ -17,6 +16,7 @@ const CreateRoom = ({
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
 
+    const { user } = useUser()
 
     const toggleUserSelection = (userId: string) => {
         setSelectedUsers((prev) =>
@@ -37,8 +37,9 @@ const CreateRoom = ({
         setMessage("");
 
         try {
-            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/room`, {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/chat/createroom`, {
                 name: groupName,
+                createdBy: user?._id,
                 members: selectedUsers,
             });
 
@@ -92,11 +93,11 @@ const CreateRoom = ({
                             <label className="block text-sm font-medium mb-1">
                                 Select Members
                             </label>
-                            <div className="max-h-48 overflow-y-auto rounded-md p-2 space-y-2 hover:bg-gray-200">
+                            <div className="max-h-48 overflow-y-auto rounded-md p-2 space-y-2 ">
                                 {users.map((user) => (
                                     <label
                                         key={user._id}
-                                        className="flex items-center justify-between cursor-pointer"
+                                        className="flex items-center justify-between cursor-pointer hover:bg-gray-200 p-1"
                                     >
                                         <div>
                                             <p className="font-medium text-gray-700">{user.name}</p>

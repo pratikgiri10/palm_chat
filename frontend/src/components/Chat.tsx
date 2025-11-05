@@ -3,12 +3,9 @@ import ChatList from './ChatList'
 import ChatRoom from './ChatRoom'
 import CreateRoom from './CreateRoom'
 import axios from 'axios'
+import type { User } from '../types/user'
 
-export type User = {
-    _id: string;
-    name: string;
-    email: string;
-};
+
 
 const Chat = () => {
     const [user, setUser] = useState<User[]>([])
